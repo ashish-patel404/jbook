@@ -1,8 +1,10 @@
+import 'bulmaswatch/superhero/bulmaswatch.min.css';
 import * as esbuild from 'esbuild-wasm';
 import { useState, useEffect, useRef } from "react";
 import { createRoot } from "react-dom/client";
 import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { fetchPlugin } from './plugins/fetch-plugin';
+import CodeEditor from './components/code-editor';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
@@ -30,7 +32,7 @@ const App = () => {
             return;
         }
 
-    iframe.current.srcdoc=html;
+        iframe.current.srcdoc = html;
 
         // const result = await ref.current.transform(input, {
         //     loader: 'jsx',
@@ -84,14 +86,29 @@ const App = () => {
         </html>
         `;
 
-    return (<div>
-        <textarea value={input} onChange={e => setInput(e.target.value)}></textarea>
+    return (
         <div>
-            <button onClick={onClick}>Submit</button>
+            <CodeEditor
+                initialValue='const b=10;'
+                onChange={(value) => setInput(value)}
+            />
+            <textarea
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                style={{ height: '200px', width: '500px' }}>
+            </textarea>
+            <div style={{ paddingBottom: '5px' }}>
+                <button onClick={onClick}>Submit</button>
+            </div>
+            {/* <pre>{code}</pre> */}
+            <iframe
+                title='Preview'
+                ref={iframe}
+                sandbox="allow-scripts"
+                srcDoc={html}
+                style={{ height: '200px', width: '500px' }}>
+            </iframe>
         </div>
-        {/* <pre>{code}</pre> */}
-        <iframe title='Preview' ref={iframe} sandbox="allow-scripts" srcDoc={html}></iframe>
-    </div>
     );
 };
 
