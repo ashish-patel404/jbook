@@ -10,8 +10,8 @@ interface ResizableProps {
 const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
     let resizableProps: ResizableBoxProps;
 
-    const [innerHeight, setInnerHeight] = useState(window.innerHeight);
-    const [innerWidth, setInnerWidth] = useState(window.innerWidth);
+    const [innerHeight, setInnerHeight] = useState(Math.floor(window.innerHeight));
+    const [innerWidth, setInnerWidth] = useState(Math.floor(window.innerWidth));
     const [width, setWidth] = useState(Math.floor(window.innerWidth * 0.75));
 
     useEffect(() => {
@@ -21,10 +21,10 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
                 clearTimeout(timer);
             }
             timer = setTimeout(() => {
-                setInnerWidth(window.innerWidth);
-                setInnerHeight(window.innerHeight);
+                setInnerWidth(Math.floor(window.innerWidth));
+                setInnerHeight(Math.floor(window.innerHeight));
                 if (Math.floor(window.innerWidth * 0.75) < width) {
-                    setWidth(Math.floor(window.innerWidth * 0.75))
+                    setWidth(Math.floor(window.innerWidth * 0.75));
                 }
             }, 100);
         };
