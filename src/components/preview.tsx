@@ -13,10 +13,10 @@ const html = `
         <style>html { background-color: white; }</style>
     </head>
     <body>
-        <div id="root"></div>
+        <div id="roote"></div>
         <script>
             const handleError = (err)=>{
-                const root = document.querySelector('#root');
+                const root = document.querySelector('#roote');
                 root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
                 console.error(err);
             };
