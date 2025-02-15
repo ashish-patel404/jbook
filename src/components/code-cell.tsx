@@ -25,7 +25,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
             import { createRoot as _createRoot } from "react-dom/client";
 
             const show = (value) => {
-                const root = document.querySelector('#roote');
+                const root = document.querySelector('#root');
                 if (root) {
                     if (typeof value === 'object') {
                         if(value.$$typeof && value.props) {
