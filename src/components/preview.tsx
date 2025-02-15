@@ -1,5 +1,5 @@
 import './preview.css';
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface PreviewProps {
     code: string;
@@ -13,10 +13,10 @@ const html = `
         <style>html { background-color: white; }</style>
     </head>
     <body>
-        <div id="roote"></div>
+        <div id="root"></div>
         <script>
             const handleError = (err)=>{
-                const root = document.querySelector('#roote');
+                const root = document.querySelector('#root');
                 root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
                 console.error(err);
             };
@@ -41,17 +41,25 @@ const html = `
 
 const Preview: React.FC<PreviewProps> = ({ code, err }) => {
     const iframe = useRef<any>();
+    const [previewClassName, serPreviewClassName] = useState('preview-wrapper');
     useEffect(() => {
+        serPreviewClassName('');
         iframe.current.srcdoc = html;
         // iframe.current.contentWindow.postMessage(code, '*');
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             iframe.current?.contentWindow?.postMessage(code, '*');
-        }, 50);
+            serPreviewClassName('preview-wrapper');
+        }, 1000);
+
+        return () => {
+            clearTimeout(timer);
+        }
     }, [code]);
 
     return (
-        <div className="preview-wrapper">
+        <div className={previewClassName}>
             <iframe
+                style={{ backgroundColor: 'white' }}
                 title='Preview'
                 ref={iframe}
                 sandbox="allow-scripts"
